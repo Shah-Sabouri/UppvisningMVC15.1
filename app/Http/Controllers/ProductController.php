@@ -14,7 +14,11 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        return view('showAllProducts', ['products' => $products]);
+        if ($products->isEmpty()) {
+            return view('error');
+        }
+        
+        return view('showAllProducts',['products' => $products]);
     }
 
     /**
@@ -32,11 +36,11 @@ class ProductController extends Controller
     {
         $product = new Product;
 
-        $product->prodouct_name = $request->product_name;
+        $product->product_name = $request->product_name;
         $product->description = $request->description;
         $product->price = $request->price;
 
-        $product-> save();
+        $product->save();
 
         return redirect('/products');
     }
